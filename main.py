@@ -35,7 +35,7 @@ train_data_array = np.array(train_data)
 
 # train_data_array.reshape(-1,1)
 
-classifier = MLPClassifier(solver='lbfgs', alpha=1e-6, hidden_layer_sizes=(3, 4), random_state=69)
+classifier = MLPClassifier(solver='lbfgs', alpha=1e-2, hidden_layer_sizes=(15, 15), random_state=69)
 classifier.fit(train_data_array, train_labels)
 
 
@@ -72,8 +72,13 @@ test_data_array = np.array(test_data)
 
 results = classifier.predict(test_data_array)
 
-df = pd.DataFrame(data=[test_labels,results], columns=['y_Actual','y_Predicted'])
+data = {'y_Actual' : test_labels,
+        'y_Predicted' : results}
+df = pd.DataFrame(data, columns=['y_Actual','y_Predicted'])
 confusion_matrix = pd.crosstab(df['y_Actual'], df['y_Predicted'], rownames=['Actual'], colnames=['Predicted'])
+
+print(results)
+print(test_labels)
 
 sn.heatmap(confusion_matrix, annot=True)
 plt.show()
