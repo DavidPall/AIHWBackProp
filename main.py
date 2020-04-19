@@ -1,5 +1,8 @@
-from sklearn.neural_network import MLPClassifier
 import numpy as np
+from sklearn.neural_network import MLPClassifier
+import pandas as pd
+import seaborn as sn
+import matplotlib.pyplot as plt
 
 train_labels = []
 with open("train_labels.txt") as f:
@@ -69,5 +72,9 @@ test_data_array = np.array(test_data)
 
 results = classifier.predict(test_data_array)
 
-print(results)
-print(test_labels)
+df = pd.DataFrame(data=[test_labels,results], columns=['y_Actual','y_Predicted'])
+confusion_matrix = pd.crosstab(df['y_Actual'], df['y_Predicted'], rownames=['Actual'], colnames=['Predicted'])
+
+sn.heatmap(confusion_matrix, annot=True)
+plt.show()
+
